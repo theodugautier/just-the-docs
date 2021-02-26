@@ -457,12 +457,23 @@ jtd.setTheme = function(theme) {
   cssFile.setAttribute('href', '{{ "assets/css/just-the-docs-" | absolute_url }}' + theme + '.css');
 }
 
+function setDarkThemeAccordingToUserTheme () {
+  const darkTheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+  if (darkTheme) {
+    jtd.setTheme('dark');
+  }
+}
+
 // Document ready
 
 jtd.onReady(function(){
   initNav();
   {%- if site.search_enabled != false %}
   initSearch();
+  {%- endif %}
+  {%- if site.dynamic_dark_theme == true %}
+  setDarkThemeAccordingToUserTheme();
   {%- endif %}
 });
 
